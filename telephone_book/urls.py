@@ -6,7 +6,7 @@ from telephone_book import views
 app_name = "telephone_book"
 
 router = DefaultRouter()
-router.register("articles", views.ArticleViewSet)
+router.register("number", views.ArticleViewSet)
 
 urlpatterns = [
     path("api/", include(router.urls)),

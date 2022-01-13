@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from news.models import Article
+from telephone_book.models import Number
 
 
-class ArticleSerializer(serializers.ModelSerializer):
+class NumberSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Article
+        model = Number
         fields = "__all__"

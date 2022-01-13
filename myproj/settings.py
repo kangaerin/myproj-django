@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'shop',
     'blog',
     'news',
-    'telephone_book',
+    'Number',
 ]
 
 MIDDLEWARE = [
