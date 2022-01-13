@@ -11,11 +11,23 @@ class ArticleViewSet(ModelViewSet):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
 
+    def get_queryset(self):
+        qs = super().get_queryset()
 
-article_list = ListAPIView.as_view(
-    queryset=Article.objects.all(),
-    serializer_class=ArticleSerializer,
-)
+        query = self.request.query_params.get("query", "")
+        if query:
+            qs = qs.filter(title__icontains=query)
+
+        year = self.request.query_params.get("year", "")
+        if year:
+            qs = qs.filter(created_at__year=year)
+
+        return qs
+
+# article_list = ListAPIView.as_view(
+#     queryset=Article.objects.all(),
+#     serializer_class=ArticleSerializer,
+# )
 
 # step 1
 # def article_list(request):
