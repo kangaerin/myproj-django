@@ -1,6 +1,7 @@
 import json
 
 from django.http import HttpResponse
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from news.models import Article
 from news.serializers import ArticleSerializer, ArticleAdminSerializer, ArticleAnonymousSerializer, ArticleGoldMemberShipSerializer
@@ -10,6 +11,9 @@ from rest_framework.generics import ListAPIView
 class ArticleViewSet(ModelViewSet):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+    # permission_classes = [AllowAny] #DRF 디폴트 설정
+    permission_classes = [IsAuthenticated]
+    #article api는 모든 요청에 대해 인증을 필요로 하게 되며, 비인증시 요청 거부.
 
     # def get_serializer_class(self):
     #     # return ArticleGoldMemberShipSerializer
