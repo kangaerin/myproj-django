@@ -1,60 +1,25 @@
-import json
-
-from django.http import HttpResponse
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.viewsets import ModelViewSet
 from news.models import Article
-from news.serializers import ArticleSerializer, ArticleAdminSerializer, ArticleAnonymousSerializer, ArticleGoldMemberShipSerializer
-from rest_framework.generics import ListAPIView
+from news.serializers import ArticleSerializer
 
 
+# viewset은 5개 지원
+# list, detail, create, update, daelete를 한 개 viewset에서 지원
 class ArticleViewSet(ModelViewSet):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
-    # permission_classes = [AllowAny] #DRF 디폴트 설정
-    permission_classes = [IsAuthenticated]
-    #article api는 모든 요청에 대해 인증을 필요로 하게 되며, 비인증시 요청 거부.
 
-    # def get_serializer_class(self):
-    #     # return ArticleGoldMemberShipSerializer
-    #     # return ArticleAnonymousSerializer
-    #     return ArticleAdminSerializer
+    # permission_classes = [IsAuthenticated]
 
-    # def get_queryset(self):
-    #     qs = super().get_queryset()
-    #
-    #     query = self.request.query_params.get("query", "")
-    #     if query:
-    #         qs = qs.filter(title__icontains=query)
-    #
-    #     year = self.request.query_params.get("year", "")
-    #     if year:
-    #         qs = qs.filter(created_at__year=year)
-    #
-    #     return qs
+    def get_permissions(self):
+        # if self.request.method in("POST, "PUT", "PATCH", DELETE"):
+        if self.request.method == "GET":
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
-# article_list = ListAPIView.as_view(
-#     queryset=Article.objects.all(),
-#     serializer_class=ArticleSerializer,
-# )
-
-# step 1
-# def article_list(request):
-#     qs = Article.objects.all()
-#
-#     # step 2
-#     serializer = ArticleSerializer(qs, many=True)
-#     data = serializer.data
-#
-#
-#     # data = [
-#     #     {
-#     #         "id": article.id,
-#     #         "title": article.title,
-#     #         "content": article.content,
-#     #         "photo": request.build_absolute_uri(article.photo.url) if article.photo else None,
-#     #     }
-#     #     for article in qs
-#     # ]
-#     json_string = json.dumps(data)
-#     return HttpResponse(json_string, content_type="application/json")
+    # 유효성 검사가 끝나고나서 실제 serializer.save()를 할때 수행되는 함수
+    def perform_create(self, serializer):
+        # serializer.save는 commit=False를 지원하지 않습니다.
+        # 대신 키워드 인자를 통한 속성 지정을 지원합니다.
+        serializer.save(author=self.request.user)
