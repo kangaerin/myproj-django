@@ -135,18 +135,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # https://github.com/adamchainz/django-cors-headers
 
 CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS",
-                                defalut=["http://localhost:3000"])
+                                default=["http://localhost:3000"])
 # djangorestframework
 # DRF의 디폴트 설정을 재정의 합니다.
 # 인증에 session도 쓰고 authentication도 사용.
 
 ACCESS_TOKEN_LIFETIME_DAYS = env.int("ACCESS_TOKEN_LIFETIME_DAYS",
-                                     defalut=0)
+                                     default=0)
 
 ACCESS_TOKEN_LIFETIME_HOURS = env.int("ACCESS_TOKEN_LIFETIME_HOURS",
-                                      defalut=0)
+                                      default=0)
 ACCESS_TOKEN_LIFETIME_MINUTES = env.int("ACCESS_TOKEN_LIFETIME_MINUTES",
-                                        defalut=5)
+                                        default=5)
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -155,7 +155,7 @@ REST_FRAMEWORK = {
     ],
     # 디폴트 만료시간 : 5분
     'ACCESS_TOKEN_LIFETIME': timedelta(
-        dats=ACCESS_TOKEN_LIFETIME_DAYS,
+        days=ACCESS_TOKEN_LIFETIME_DAYS,
         hours=ACCESS_TOKEN_LIFETIME_HOURS,
         minutes=ACCESS_TOKEN_LIFETIME_MINUTES,
     ),
