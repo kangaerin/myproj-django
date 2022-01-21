@@ -121,7 +121,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+
 
 STATIC_URL = '/static/'
 # 각 앱에 나눠 저장된 static 파일들을 한곳으로 모아서 저장할 디렉토리 경로
